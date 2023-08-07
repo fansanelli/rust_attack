@@ -1,12 +1,6 @@
-mod rust_attack_utils;
 use crate::rust_attack_utils::gcd;
 use num_bigint::{BigInt, RandBigInt};
 use num_traits::{One, Signed, Zero};
-
-
-fn main() {
-    println!("{}", brent(BigInt::parse_bytes(b"115792089237316195423570985008687907853269984665640564039457584007913129639937", 10).unwrap()));
-}
 
 fn brent(n: BigInt) -> BigInt {
     if n.bit(1u64) {
@@ -39,7 +33,7 @@ fn brent(n: BigInt) -> BigInt {
                 i = BigInt::zero();
                 while i <= m.clone().min(r.clone() - k.clone()) {
                     y = (y.modpow(&BigInt::from(2), &n) + c.clone()) % n.clone();
-                    q = q * (x.abs_sub(&y)) % n.clone();
+                    q = q * ((x.clone() - y.clone()).abs()) % n.clone();
                     i += BigInt::one();
                 }
                 g = gcd(&q, &n);
@@ -53,7 +47,7 @@ fn brent(n: BigInt) -> BigInt {
         if g == n {
             loop {
                 ys = (ys.modpow(&BigInt::from(2), &n) + c.clone()) % n.clone();
-                g = gcd(&x.abs_sub(&ys), &n);
+                g = gcd(&(x.clone() - ys.clone()).abs(), &n);
                 if n > g && g > BigInt::one() {
                     return g;
                 }
@@ -62,5 +56,3 @@ fn brent(n: BigInt) -> BigInt {
     }
     return BigInt::zero();
 }
-
-
