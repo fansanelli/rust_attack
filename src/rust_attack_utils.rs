@@ -1,6 +1,5 @@
 use num_bigint::{BigInt};
 use num_traits::{Zero, One};
-use std::ops::Add;
 
 #[inline]
 pub fn gcd(x: &BigInt, y: &BigInt) -> BigInt {

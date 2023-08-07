@@ -1,14 +1,8 @@
-mod rust_attack_utils;
 use crate::rust_attack_utils::gcd;
 use num_bigint::BigInt;
 use num_traits::{One, Zero};
 
-
-fn main() {
-    println!("{}", shor(BigInt::parse_bytes(b"34506963109", 10).unwrap()));
-}
-
-fn shor(n: BigInt) -> BigInt {
+pub fn shor(n: BigInt) -> BigInt {
     /*
     Shor's algorithm: only the classical part of it, implemented in a very naive and linear way.
     Use the quantum period finding function: f(x) = a^x % N to find r, then a^r == 1 (mod N) and that is what the quantum computer
@@ -38,5 +32,10 @@ fn shor(n: BigInt) -> BigInt {
         }
     }
     return BigInt::zero();
+}
+
+#[test]
+fn shor_works() {
+    assert_eq!(shor(BigInt::parse_bytes(b"34506963109", 10).unwrap()), BigInt::parse_bytes(b"263209", 10).unwrap());
 }
 
